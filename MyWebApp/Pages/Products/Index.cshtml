@@ -1,0 +1,87 @@
+﻿@page
+@model MyWebApp.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Products</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a asp-page="Create" class="btn btn-primary mb-3">Create New</a>
+        </div>
+        <div class="col-md-6">
+            <form asp-page="./Index" method="get" class="d-flex justify-content-end">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="SearchString" placeholder="Find by Product Title" value="@Model.CurrentFilter" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort">
+                                @Html.DisplayNameFor(model => model.Product[0].Name)
+                            </a>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product[0].Category)
+                        </th>
+                        <th>
+                            <a asp-page="./Index" asp-route-sortOrder="@Model.PriceSort">
+                                @Html.DisplayNameFor(model => model.Product[0].Price)
+                            </a>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ProductD.Products)
+                    {
+                        string selectedRow = "";
+                        if (item.ProductID == Model.ProdID)
+                        {
+                            selectedRow = "table-success";
+                        }
+                        <tr class="@selectedRow">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td class="text-right">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a asp-page="./Edit" asp-route-id="@item.ProductID" class="btn btn-secondary">Edit</a>
+                                    <a asp-page="./Details" asp-route-id="@item.ProductID" class="btn btn-secondary">Details</a>
+                                    <a asp-page="./Delete" asp-route-id="@item.ProductID" class="btn btn-secondary">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
